@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Radar na ponte - Teorema do Valor Médio</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <main>
+    <header class="topo">
+      <h1>Radar na ponte</h1>
+      <p class="sub">Teorema do Valor Médio na prática</p>
+    </header>
+
+    <section class="dados" aria-label="Dados">
+      <label>Distância da ponte (km)
+        <input id="distancia" type="number" step="0.1" min="0.1" value="2.4">
+      </label>
+      <label>Limite (km/h)
+        <input id="limite" type="number" step="1" min="1" value="80">
+      </label>
+      <label>Câmera A: entrada
+        <input id="entrada" type="time" step="1" value="10:00:00">
+      </label>
+      <label>Câmera B: saída
+        <input id="saida" type="time" step="1" value="10:01:15">
+      </label>
+      <label class="irreg">
+        <span class="linha">Irregularidade da viagem <output id="irregVal" for="irreg">0,5</output></span>
+        <input id="irreg" type="range" min="0" max="0.8" step="0.05" value="0.5">
+      </label>
+    </section>
+
+    <div class="layout">
+      <section class="painel" aria-label="Radar">
+        <div class="bloco" aria-live="polite">
+          <h2>Radar</h2>
+          <p class="conta" id="conta"></p>
+          <p class="grande" id="velocidade">–</p>
+          <p id="situacao"></p>
+        </div>
+
+        <div class="bloco agora">
+          <p class="rotulo">Velocidade agora</p>
+          <p class="medidor" id="agora">–</p>
+        </div>
+
+        <div class="bloco">
+          <ul class="legenda">
+            <li><span class="traco curva"></span> curva (vermelha quando passa do limite)</li>
+            <li><span class="traco media"></span> velocidade média (A até B)</li>
+            <li><span class="traco lim"></span> limite de velocidade</li>
+            <li><span class="traco tang"></span> instante c (tangente paralela)</li>
+          </ul>
+        </div>
+
+        <button id="repetir" type="button">Repetir simulação</button>
+      </section>
+
+      <section id="animacao" class="sim" aria-label="Simulação">
+        <div class="rua">
+          <span class="marca a">A</span>
+          <span class="marca b">B</span>
+          <div class="pista"></div>
+          <svg id="carro" class="carro" viewBox="0 0 48 24" width="48" height="24" aria-label="Carro">
+            <rect x="2" y="8" width="44" height="10" rx="2" fill="#3ddc6a"/>
+            <rect x="12" y="2" width="22" height="8" rx="2" fill="#3ddc6a"/>
+            <rect x="15" y="4" width="7" height="5" fill="#000"/>
+            <rect x="24" y="4" width="7" height="5" fill="#000"/>
+            <circle cx="12" cy="19" r="4" fill="#000" stroke="#3ddc6a" stroke-width="2"/>
+            <circle cx="36" cy="19" r="4" fill="#000" stroke="#3ddc6a" stroke-width="2"/>
+          </svg>
+        </div>
+        <p id="aviso-c" class="aviso-c">&nbsp;</p>
+
+        <div class="graficos">
+          <figure>
+            <figcaption>Posição s(t)</figcaption>
+            <svg id="grafico-pos" viewBox="0 0 600 300" role="img" aria-label="Gráfico da posição pelo tempo"></svg>
+          </figure>
+          <figure>
+            <figcaption>Velocidade v(t)</figcaption>
+            <svg id="grafico-vel" viewBox="0 0 600 300" role="img" aria-label="Gráfico da velocidade pelo tempo"></svg>
+          </figure>
+        </div>
+
+        <p class="nota">A curva é só ilustrativa: as câmeras medem apenas A e B. O teorema garante que existe pelo menos um instante c em que a velocidade foi igual à média. Com média abaixo do limite, a curva pode ou não passar dele, e as câmeras não têm como saber.</p>
+      </section>
+    </div>
+
+    <details class="teorema">
+      <summary>Onde entra o teorema? <span class="formula-inline">s'(c) = [s(b) − s(a)] / (b − a)</span></summary>
+      <div class="conteudo">
+        <div>
+          <p>Velocidade média = distância ÷ tempo.</p>
+        </div>
+        <div>
+          <p>Se a posição do carro é contínua e derivável, em algum instante a velocidade de verdade foi igual à média:</p>
+          <p class="formula">s'(c) = [s(b) − s(a)] / (b − a)</p>
+        </div>
+        <div>
+          <p>Média acima do limite: com certeza passou do limite em algum momento.</p>
+          <p>Média abaixo do limite: não dá pra garantir nada.</p>
+        </div>
+      </div>
+    </details>
+  </main>
+</body>
+</html>
